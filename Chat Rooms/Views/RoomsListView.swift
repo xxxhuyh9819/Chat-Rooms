@@ -17,6 +17,16 @@ struct RoomsListView: View {
         return viewModel.currentUser
     }
     
+    // src: https://forums.developer.apple.com/forums/thread/683177
+    func updateRoomsLive() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            Task {
+                try await viewModel.getRooms()
+            }
+            updateRoomsLive()
+        }
+    }
+    
     var body: some View {
         
         NavigationStack {
@@ -26,6 +36,9 @@ struct RoomsListView: View {
                         RoomView(room: room, user: user)
                             .navigationBarBackButtonHidden()
                     }
+                }
+                .onAppear {
+                    updateRoomsLive()
                 }
                 .padding(.top)
                 .navigationTitle("Rooms")

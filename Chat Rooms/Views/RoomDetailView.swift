@@ -20,6 +20,16 @@ struct RoomDetailView: View {
         self._viewModel = StateObject(wrappedValue: RoomDetailViewModel(room: room))
     }
     
+    // src: https://forums.developer.apple.com/forums/thread/683177
+    private func updateMessagesLive() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            Task {
+                try await viewModel.getMessagesByRoomId(roomId: room.id)
+            }
+            updateMessagesLive()
+        }
+    }
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -45,6 +55,9 @@ struct RoomDetailView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal)
                         }
+                    }
+                    .onAppear {
+                        updateMessagesLive()
                     }
                     .padding(.bottom, 40)
                     .padding(.top)
