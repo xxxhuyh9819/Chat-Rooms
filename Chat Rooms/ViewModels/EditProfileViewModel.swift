@@ -31,12 +31,9 @@ class EditProfileViewModel: ObservableObject {
     func updateUserData() async throws {
         let snapshot = try await Firestore.firestore().collection("users").document(user.id).getDocument()
         let user = try snapshot.data(as: User.self)
-        print("user fetched: \(user.username) \(user.email)")
-        print("changing nickname to: \(newUsername)")
         try await Firestore.firestore().collection("users").document(user.id).updateData([
             "username": newUsername
         ])
         try await loadUserData()
-        print("Data updated!")
     }
 }

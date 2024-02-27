@@ -41,7 +41,6 @@ class AuthService {
         do {
             let result = try await Auth.auth().signIn(withEmail: email, password: password)
             self.currentUser = result.user
-            print("USER \(result.user.uid)")
             try await UserService.shared.getCurrentUser()
         } catch {
             print(error.localizedDescription)

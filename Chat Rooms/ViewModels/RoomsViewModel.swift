@@ -30,7 +30,6 @@ class RoomsViewModel: ObservableObject {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         Task {
             try await self.currentUser = UserService.shared.getUserWithId(withUid: currentUid)
-            print("rooms view model get user: \(currentUser?.username ?? "xxx")")
         }
     }
 }

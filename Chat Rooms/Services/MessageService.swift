@@ -46,7 +46,7 @@ class MessageService {
     @MainActor
     func createMessage(room: Room, body: String) async throws {
         guard let currentUserId = Auth.auth().currentUser?.uid else { return }
-        print("Room in service: \(room.roomName)")
+
         do {
             let message = Message(roomId: room.id, senderId: currentUserId, createdTimestamp: formattedDate(date: Date()), body: body)
             guard let encodedMessage = try? Firestore.Encoder().encode(message) else { return }

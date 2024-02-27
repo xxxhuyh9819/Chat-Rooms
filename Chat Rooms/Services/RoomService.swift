@@ -16,9 +16,6 @@ class RoomService {
     
     @MainActor
     func getRooms() async throws -> [Room] {
-        // see if currentUser is there
-//        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
-        // get current user info from database by user id
         do {
             let snapshot = try await Firestore.firestore().collection("rooms").getDocuments()
             let rooms = snapshot.documents.compactMap({ try? $0.data(as: Room.self) })

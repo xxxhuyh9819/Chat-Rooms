@@ -33,7 +33,6 @@ class MessageViewModel: ObservableObject {
     func isSentByCurrentUser() async throws -> Bool? {
         guard let currentUid = Auth.auth().currentUser?.uid else { return false }
         let currentUser = try await UserService.shared.getUserWithId(withUid: currentUid)
-        print(user == currentUser)
         return user == currentUser
     }
 }
